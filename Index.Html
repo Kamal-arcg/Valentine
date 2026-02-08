@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Will You Be My Valentine?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Quicksand',sans-serif;
+cursor:none;
+}
+
+/* Animated background */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:linear-gradient(270deg,#ff7eb3,#ff758c,#ffb199);
+background-size:600% 600%;
+animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Glass card */
+
+.card{
+backdrop-filter:blur(18px);
+background:rgba(255,255,255,0.25);
+border-radius:30px;
+padding:40px;
+text-align:center;
+box-shadow:0 20px 70px rgba(0,0,0,.25);
+width:90%;
+max-width:420px;
+color:white;
+}
+
+/* Cat */
+
+.cat{
+width:250px;
+border-radius:20px;
+margin-bottom:15px;
+}
+
+/* Buttons */
+
+button{
+border:none;
+padding:14px 28px;
+font-size:18px;
+border-radius:14px;
+margin:8px;
+cursor:pointer;
+transition:.3s;
+}
+
+.yes{
+background:#ff3e6c;
+color:white;
+}
+
+.yes:hover{
+transform:scale(1.2);
+}
+
+.no{
+position:absolute;
+background:#eee;
+}
+
+/* Celebration */
+
+#celebration{
+display:none;
+text-align:center;
+color:white;
+}
+
+.big{
+font-size:44px;
+font-weight:700;
+}
+
+/* cursor heart */
+
+.cursor{
+position:absolute;
+pointer-events:none;
+font-size:18px;
+animation:fade 1s linear forwards;
+}
+
+@keyframes fade{
+to{
+opacity:0;
+transform:translateY(-20px);
+}
+}
+
+/* Game heart */
+
+.gameHeart{
+position:absolute;
+font-size:32px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
+</audio>
+
+<div class="card" id="card">
+
+<img class="cat"
+src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+
+<h1 id="title">Hey You ❤️</h1>
+
+<p>Catch the hearts to unlock the question!</p>
+
+<div id="game"></div>
+
+<button class="yes" id="startBtn">Start 💘</button>
+
+</div>
+
+
+<div id="celebration">
+<div class="big">YOU SAID YES!!! 💕🐱</div>
+<br>
+<img class="cat"
+src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
+</div>
+
+
+<script>
+
+/* PERSONAL NAME */
+
+let name = prompt("Enter their name:");
+if(name){
+document.getElementById("title").innerText =
+name + ", will you be my Valentine? ❤️";
+}
+
+/* HEART CURSOR */
+
+document.addEventListener("mousemove", e=>{
+let heart=document.createElement("div");
+heart.className="cursor";
+heart.innerHTML="💖";
+heart.style.left=e.pageX+"px";
+heart.style.top=e.pageY+"px";
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),1000);
+});
+
+/* MINI GAME */
+
+const game=document.getElementById("game");
+const startBtn=document.getElementById("startBtn");
+
+startBtn.onclick=()=>{
+
+startBtn.style.display="none";
+let caught=0;
+
+for(let i=0;i<6;i++){
+
+let h=document.createElement("div");
+h.className="gameHeart";
+h.innerHTML="💘";
+
+h.style.left=Math.random()*80+"vw";
+h.style.top=Math.random()*80+"vh";
+
+h.onclick=()=>{
+h.remove();
+caught++;
+
+if(caught===6){
+showProposal();
+}
+};
+
+document.body.appendChild(h);
+}
+};
+
+/* PROPOSAL */
+
+function showProposal(){
+
+card.innerHTML=`
+<img class="cat"
+src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+
+<h1>Will You Be My Valentine?</h1>
+
+<button class="yes" onclick="sayYes()">YES 😻</button>
+<button class="no" id="noBtn">NO 🙀</button>
+`;
+
+document.getElementById("music").play();
+
+/* RUNAWAY NO */
+
+const noBtn=document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+
+noBtn.style.left=Math.random()*80+"vw";
+noBtn.style.top=Math.random()*80+"vh";
+
+});
+}
+
+/* YES */
+
+function sayYes(){
+
+document.getElementById("card").style.display="none";
+document.getElementById("celebration").style.display="block";
+
+/* VOICE */
+
+let msg=new SpeechSynthesisUtterance(
+"Yay! This is the best day ever! Love you!"
+);
+
+speechSynthesis.speak(msg);
+
+/* CONFETTI */
+
+for(let i=0;i<150;i++){
+let c=document.createElement("div");
+c.className="cursor";
+c.innerHTML="💖";
+c.style.left=Math.random()*100+"vw";
+c.style.top=Math.random()*100+"vh";
+c.style.fontSize=Math.random()*30+"px";
+document.body.appendChild(c);
+}
+
+}
+
+</script>
+
+</body>
+</html>
