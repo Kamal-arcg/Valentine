@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Will You Be My Valentine?</title>
+<title>Mau ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
@@ -18,7 +18,7 @@ font-family:'Quicksand',sans-serif;
 cursor:none;
 }
 
-/* Animated background */
+/* Animated Romantic Background */
 
 body{
 height:100vh;
@@ -37,7 +37,33 @@ animation:bgMove 12s ease infinite;
 100%{background-position:0% 50%;}
 }
 
-/* Glass card */
+/* Intro Screen */
+
+#intro{
+position:absolute;
+height:100%;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:white;
+font-size:42px;
+font-weight:700;
+background:black;
+z-index:10;
+animation:fadeOut 3s forwards;
+animation-delay:2.5s;
+}
+
+@keyframes fadeOut{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
+/* Glass Card */
 
 .card{
 backdrop-filter:blur(18px);
@@ -51,15 +77,11 @@ max-width:420px;
 color:white;
 }
 
-/* Cat */
-
 .cat{
 width:250px;
 border-radius:20px;
 margin-bottom:15px;
 }
-
-/* Buttons */
 
 button{
 border:none;
@@ -98,7 +120,7 @@ font-size:44px;
 font-weight:700;
 }
 
-/* cursor heart */
+/* Heart Cursor */
 
 .cursor{
 position:absolute;
@@ -114,7 +136,7 @@ transform:translateY(-20px);
 }
 }
 
-/* Game heart */
+/* Game Hearts */
 
 .gameHeart{
 position:absolute;
@@ -127,6 +149,12 @@ cursor:pointer;
 
 <body>
 
+<!-- CINEMATIC INTRO -->
+<div id="intro">
+Mau ❤️<br>
+I have something to ask you...
+</div>
+
 <audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
 </audio>
@@ -136,11 +164,9 @@ cursor:pointer;
 <img class="cat"
 src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
 
-<h1 id="title">Hey You ❤️</h1>
+<h1 id="title">Mau, will you be my Valentine? ❤️</h1>
 
 <p>Catch the hearts to unlock the question!</p>
-
-<div id="game"></div>
 
 <button class="yes" id="startBtn">Start 💘</button>
 
@@ -157,14 +183,6 @@ src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
 
 <script>
 
-/* PERSONAL NAME */
-
-let name = prompt("Enter their name:");
-if(name){
-document.getElementById("title").innerText =
-name + ", will you be my Valentine? ❤️";
-}
-
 /* HEART CURSOR */
 
 document.addEventListener("mousemove", e=>{
@@ -180,13 +198,14 @@ setTimeout(()=>heart.remove(),1000);
 
 /* MINI GAME */
 
-const game=document.getElementById("game");
 const startBtn=document.getElementById("startBtn");
 
 startBtn.onclick=()=>{
 
-startBtn.style.display="none";
+document.getElementById("music").play();
+
 let caught=0;
+startBtn.style.display="none";
 
 for(let i=0;i<6;i++){
 
@@ -210,7 +229,7 @@ document.body.appendChild(h);
 }
 };
 
-/* PROPOSAL */
+/* SHOW PROPOSAL */
 
 function showProposal(){
 
@@ -218,15 +237,19 @@ card.innerHTML=`
 <img class="cat"
 src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
 
-<h1>Will You Be My Valentine?</h1>
+<h1>Mau, will you be my Valentine? ❤️</h1>
 
 <button class="yes" onclick="sayYes()">YES 😻</button>
 <button class="no" id="noBtn">NO 🙀</button>
 `;
 
-document.getElementById("music").play();
+let msg=new SpeechSynthesisUtterance(
+"Mau... will you be my Valentine?"
+);
 
-/* RUNAWAY NO */
+speechSynthesis.speak(msg);
+
+/* Runaway NO */
 
 const noBtn=document.getElementById("noBtn");
 
@@ -238,22 +261,20 @@ noBtn.style.top=Math.random()*80+"vh";
 });
 }
 
-/* YES */
+/* YES CLICK */
 
 function sayYes(){
 
 document.getElementById("card").style.display="none";
 document.getElementById("celebration").style.display="block";
 
-/* VOICE */
-
 let msg=new SpeechSynthesisUtterance(
-"Yay! This is the best day ever! Love you!"
+"Yay Mau! This is the best day ever!"
 );
 
 speechSynthesis.speak(msg);
 
-/* CONFETTI */
+/* Confetti */
 
 for(let i=0;i<150;i++){
 let c=document.createElement("div");
